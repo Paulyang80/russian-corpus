@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+<style>
+    .stripe{
+        width:80%;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    form{
+        margin-left: 10%;
+    }
+
+    input[type=text] {
+        width: 20%;
+        box-sizing: border-box;
+        font-size: 20px;
+        margin: 8px 0;
+        padding: 6px 10px;
+      }
+
+    input[type=number] {
+        width: 5%;
+        box-sizing: border-box;
+        font-size: 20px;
+        margin: 8px 0;
+        padding: 6px 10px;
+    }
+
+    input[type=submit] {
+        width: 8%;
+        box-sizing: border-box;
+        font-size: 20px;
+        margin: 8px 0;
+        padding: 6px 10px;
+      }
+
+    input[type=button] {
+        width: 10%;
+        box-sizing: border-box;
+        font-size: 20px;
+        margin: 8px 0;
+        padding: 6px 10px;
+      }
+
+    #first_pos{
+        width: 20%;
+        box-sizing: border-box;
+        font-size: 20px;
+        margin: 8px 0;
+        padding: 6px 10px;
+    }
+
+    #second_pos{
+        width: 20%;
+        box-sizing: border-box;
+        font-size: 20px;
+        margin: 8px 0;
+        padding: 6px 10px;
+    }
+
+    h3{
+        text-align:center;
+        font-family: 'News Cycle';
+    }
+
+    h4{
+        margin-top: 8px;
+        font-family: 'News Cycle';
+        font-weight: lighter;
+    }
+</style>
+<script type="text/javascript">
+    function hidetable(){
+        $('#table_one').show();
+        $('#table_two').hide();
+        $('#table_three').hide();
+    }
+    function hidetable2(){
+        $('#table_one').hide();
+        $('#table_two').show();
+        $('#table_three').hide();
+    }
+    function hidetable3(){
+        $('#table_one').hide();
+        $('#table_two').hide();
+        $('#table_three').show();
+    }
+    $(document).ready(function() {
+        $('#table1').DataTable();
+    } );
+    $(document).ready(function() {
+        var t = $('#table2').DataTable( {
+            dom: 'Blfrtip',
+            buttons: [
+                'copy', 'csv', 'excel'
+            ],
+            "columnDefs": [ {
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            } ],
+            "order": [[ 1, 'asc' ]]
+        } );
+
+        t.on( 'order.dt search.dt', function () {
+            t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
+    } );
+    $(document).ready(function() {
+        var t = $('#table3').DataTable({
+            dom: 'Blfrtip',
+            buttons: [
+                'copy', 'csv', 'excel'
+            ],
+            "columnDefs": [ {
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            } ],
+            "order": [[ 1, 'asc' ]]
+        } );
+
+        t.on( 'order.dt search.dt', function () {
+            t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
+    } );
+</script>
+
+<form action='.' method='POST'>{% csrf_token %}
+
+    <!-- <input type="text" name="search_text" placeholder="Search a text">
+    <input type="number" name="words" placeholder="7" min="0">
+    <input type="submit" value="Search"  name="search1">
+    <input type="button" onclick = "hidetable()" value="Hide Table"> -->
+
+
+</form>
+
+<form action='.' method='POST'>{% csrf_token %}
+    <h4>Lexical Search</h4>
+    <input type="text" name="search_text1" placeholder="Search first word">
+    <input type="text" name="search_text2" placeholder="Search second word">
+    <input type="number" name="space" placeholder="7" min="0">
+    <input type="submit" value="Search" name="search2">
+    <input type="button" onclick = "hidetable2()" value="Hide Table">
+
+</form>
+
+
+
+<form action='.' method='POST'>{% csrf_token %}
+    <h4>Grammatical Search</h4>
+    <select name="first_pos" id="first_pos">
+        <option selected disabled> 請選擇第一個詞性 </option>
+        <option value="NOUN">名詞</option>
+        <option value="PRON">代名詞</option>
+        <option value="VERB">動詞</option>
+        <option value="ADJ">形容詞</option>
+        <option value="ADV">副詞</option>
+        <option value="ADP">介系詞</option>
+        <option value="CCONJ">連接詞</option>
+    </select>
+    <select name="second_pos" id="second_pos">
+        <option selected disabled> 請選擇第二個詞性 </option>
+        <option value="NOUN">名詞</option>
+        <option value="PRON">代名詞</option>
+        <option value="VERB">動詞</option>
+        <option value="ADJ">形容詞</option>
+        <option value="ADV">副詞</option>
+        <option value="ADP">介系詞</option>
+        <option value="CCONJ">連接詞</option>
+    </select>
+    <input type="number" name="space2" placeholder="7" min="0">
+    <input type="submit" value="Search" name="search3">
+    <input type="button" onclick = "hidetable3()" value="Hide Table">
+</form>
+<!-- <div id="table_one">
+    <table id="table1" style="display:block;">
+        <thead>
+            <tr>
+                <th>docname</th>
+                <th>pre</th>
+                <th>keyword</th>
+                <th>post</th>
+                <th>paragraph</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for instance in content %}
+            <tr>
+                <td>{{ instance.id }}</td>
+                <td>{{ instance.pre }}</td>
+                <td>{{ instance.search_word }}</td>
+                <td>{{ instance.post }}</td>
+                <td>{{ instance.text }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div> -->
+
+<div id="table_two" class="stripe">
+    <h3>Lexical Search</h3>
+    <table id="table2" style="display:block;">
+        <thead>
+            <tr>
+                <th></th>
+                <th>docname</th>
+                <th>first paragraph</th>
+                <th>first word</th>
+                <th>second paragraph</th>
+                <th>second word</th>
+                <th>third paragraph</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for instance in content %}
+            <tr>
+                <td></td>
+                <td>{{ instance.id }}</td>
+                <td>{{ instance.text_1 }}</td>
+                <td>{{ instance.first }}</td>
+                <td>{{ instance.text_2 }}</td>
+                <td>{{ instance.second }}</td>
+                <td>{{ instance.text_3 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p>  </p>
+
+<div id="table_three" class="stripe">
+    <h3>Grammatical Search</h3>
+    <table id="table3" style="display:block;">
+        <thead>
+            <tr>
+                <th></th>
+                <th>docname</th>
+                <th>first_pos</th>
+                <th>second_pos</th>
+                <th>text</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for instance in content %}
+            <tr>
+                <td></td>
+                <td>{{ instance.id2 }}</td>
+                <td>{{ instance.first_pos }}</td>
+                <td>{{ instance.second_pos }}</td>
+                <td>{{ instance.text3 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+    <head>
+        <title>LEARNER CORPUS OF SALVIC LANGUAGES (RUSSIAN)</title>
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        {% load static %}
+        <link rel="icon" href="{% static 'images/logo.png' %}">
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                text-decoration: none;
+            }
+
+            header{
+                width: 100vw;
+                height: 60px;
+                border-bottom: solid 1px rgba(16, 16, 16, 0.1);
+                font-family: 'Poppins';
+                position: fixed;
+                top:0;
+                z-index:5;
+
+            }
+
+            header .inner{
+                width: 100%;
+                height: 100%;
+                display: block;
+                margin: 0 auto;
+                background-color: #823737;
+                border: #823737;
+            }
+
+            header .logo{
+                display: table;
+                height: 100%;
+                float: left;
+            }
+
+            header .logo div{
+                height: 100%;
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            header .logo img{
+                height: 55px;
+                margin-top: 3px; /* Optical alignment of the logo */
+            }
+
+            header nav{
+                float: left;
+                margin-left: 5px;
+                height: 100%;
+            }
+
+            header nav li{
+                display: table;
+                height: 100%;
+                float: left;
+                margin-right: 30px;
+            }
+
+            header nav li:last-of-type{
+                margin-right: 0;
+            }
+
+            header nav span {
+                display: table-cell;
+                vertical-align: middle;
+                color: white;
+                font-family: 'News Cycle';
+                font-weight: bold;
+                font-size: 18px;
+            }
+
+            header nav a{
+                color: white;
+            }
+
+            body
+            {
+                padding-top:  60px;
+                padding-bottom: 60px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="inner">
+                <div class="logo">
+                    <div>
+                        {% load static %}
+                        <img src= "{% static 'images/logo.png' %}" alt="logo">
+                    </div>
+                </div>
+                <nav>
+                    <li><span>LEARNER CORPUS OF SALVIC LANGUAGES (RUSSIAN)</span></li>
+                    <li><span><a href="http://lcsl.nccu.edu.tw/"><i class="fas fa-home"></i> Home</a></span></li>
+                    <li><span><a href="http://lcsl.nccu.edu.tw:3838/sample-apps/searchCorpus/Russian.Rmd#section-search"><i class="fas fa-search"></i> Search</a></span></li>
+                    <li><span><a href="http://lcsl.nccu.edu.tw:3838/sample-apps/searchCorpus/Russian.Rmd#section-advanced-filter"><i class="fas fa-filter"></i> Advanced Filter</a></span></li>
+                    <li><span><a href=""><i class="fab fa-searchengin"></i> Lexical/Grammatical Search</a></span></li>
+                </nav>
+            </div>
+        </header>
+        {% block content %}
+            replace me
+        {% endblock %}
+        <footer style="position:fixed; bottom:0; left: 0px; width:100%; height:22px;
+        color: #FFFFFF; padding: 1%; background-color: #A26969; font-family: 'News Cycle'; text-align:center;">
+            <b>NCCU LCSL &copy; 2021.</b>
+        </footer>
+    </body>
+</html>
